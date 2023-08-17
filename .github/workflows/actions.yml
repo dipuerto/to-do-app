@@ -1,0 +1,16 @@
+name: Docker Compose Todo-App
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - name: Descarga del Repositorio
+        uses: actions/checkout@v2
+        
+      - name: Empezar Containers
+        working-directory: ./app
+        run: docker compose -f "docker-compose.yaml" up -d --build

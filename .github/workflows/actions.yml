@@ -4,18 +4,12 @@ on:
   push:
     branches: [ "main" ]
 
-
-
 jobs:
   build:
     runs-on: self-hosted
     steps:
       - name: Descarga del Repositorio
         uses: actions/checkout@v2
-      
-      - name: Montar Docker Compose
-        uses: isbang/compose-action@v1.5.1
-        with:
-          compose-file: ./app/docker-compose.yaml
-          #compose-command: up
-
+        
+      - name: Empezar Containers
+        run: docker-compose -f "docker-compose.yml" up -d --build

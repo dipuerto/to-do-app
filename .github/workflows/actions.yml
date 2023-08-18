@@ -6,11 +6,12 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: [self-hosted, build]
     steps:
       - name: Descarga del Repositorio
         uses: actions/checkout@v2
         
       - name: Empezar Containers
         working-directory: ./app
-        run: docker compose -f "docker-compose.yaml" up -d --build
+        #run: docker compose -f "docker-compose.yaml" up -d --build
+        run: docker compose -f "docker-compose.yaml" build 

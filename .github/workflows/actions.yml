@@ -24,4 +24,4 @@ jobs:
         
       - name: Subir Compose
         run: |
-          docker compose push ${{secrets.DOCKER_USER}}/cicd_challenge:v1
+          docker compose push . ${{secrets.DOCKER_USER}}/cicd_challenge:v1

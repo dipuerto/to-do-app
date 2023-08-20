@@ -20,8 +20,8 @@ jobs:
         env:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
           DOCKER_PASS: ${{secrets.DOCKER_PASS}}
-        run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+        run: docker login -u $DOCKER_USER --password-stdin $DOCKER_PASS
         
       - name: Subir Containers
         run: |
-          docker push ${{secrets.DOCKER_USER}}/cicd_challenge
+          docker push ${{secrets.DOCKER_USER}}/cicd_challenge:v1

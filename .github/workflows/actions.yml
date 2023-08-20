@@ -22,6 +22,6 @@ jobs:
           DOCKER_PASS: ${{secrets.DOCKER_PASS}}
         run: docker login -u $DOCKER_USER -p $DOCKER_PASS
         
-      - name: Subir Containers
+      - name: Subir Compose
         run: |
-          docker push ${{secrets.DOCKER_USER}}/cicd_challenge:v1
+          docker compose push ${{secrets.DOCKER_USER}}/cicd_challenge:v1

@@ -11,7 +11,17 @@ jobs:
       - name: Descarga del Repositorio
         uses: actions/checkout@v2
         
-      - name: Empezar Containers
+      - name: Construir Containers
         working-directory: ./app
         #run: docker compose -f "docker-compose.yaml" up -d --build
         run: docker compose -f "docker-compose.yaml" build 
+        
+      - name: Configurar DockerHub
+        env:
+          DOCKER_USER: ${{secrets.DOCKER_USER}}
+          DOCKER_PASS: ${{secrets.DOCKER_PASS}}
+        run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+        
+      - name: Subir Containers
+        run: |
+          docker push ${{secrets.DOCKER_USER}}/cicd_challenge

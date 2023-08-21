@@ -25,7 +25,7 @@ jobs:
       - name: Subir Compose
         working-directory: ./app
         run: |
-          docker compose push ${{secrets.DOCKER_USER}}/cicd_challenge:v1
+          docker compose push
   deploy:
     needs: build
     runs-on: [self-hosted, deploy]

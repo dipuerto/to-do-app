@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   app:
-    #image: todoapp:v1
+    image: dipuerto/cicd_challenge:v1
     build: .
     ports:
       - "3000:3000"

@@ -25,3 +25,9 @@ jobs:
       - name: Subir Compose
         run: |
           docker compose push . ${{secrets.DOCKER_USER}}/cicd_challenge:v1
+  deploy:
+    runs-on: [self-hosted, deploy]
+    steps:
+      - name: Iniciar DockerCompose
+        working-directory: ./app
+        run: docker compose -f "docker-compose.yaml" up -d

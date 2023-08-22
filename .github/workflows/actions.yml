@@ -11,9 +11,9 @@ jobs:
       - name: Descarga del Repositorio
         uses: actions/checkout@v2
       
-      - name: Prueba los test
+      - name: Prueba de Test
         run: |
-          docker build -t test ./Dockerfile_test
+          docker build -t test -f Dockerfile_test .
           docker run test
         
       - name: Construir Containers

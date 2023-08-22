@@ -14,9 +14,10 @@ jobs:
       - name: Prueba de Test
         working-directory: ./app
         run: |
-          docker build -t test -f Dockerfile .
-          docker run test
-        
+          docker compose -f "docker-compose-test.yaml" build
+          docker compose -f "docker-compose-test.yaml" up -d
+          docker compose -f "docker-compose-test.yaml" down 
+
       - name: Construir Containers
         if: ${{ success() }}
         working-directory: ./app

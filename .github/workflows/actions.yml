@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v2
       
       - name: Prueba de Test
-        working-directory: ./test_docker
+        working-directory: ./app/test_docker
         run: |
           docker build -t test -f Dockerfile .
           docker run test

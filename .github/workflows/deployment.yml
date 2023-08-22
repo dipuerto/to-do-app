@@ -2,7 +2,7 @@ name: Docker Compose Todo-App
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "develop" ]
 
 jobs:
   build:

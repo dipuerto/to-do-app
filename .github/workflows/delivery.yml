@@ -1,0 +1,62 @@
+name: Docker Compose Todo-App
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  approval:
+    runs-on: [self-hosted, build]
+
+    steps:
+      - name: Pedir Aprovación
+        id: approval
+        run: echo "Por favor revise este despliegue"
+
+      - name: Esperar Aprovación
+        uses: repo-sync/pause-action@v2
+        id: pause
+        with:
+          seconds: 0 # Set to 0 to wait indefinitely
+  
+  build:
+    needs: approval
+    runs-on: [self-hosted, build]
+    steps:
+      - name: Descarga del Repositorio
+        uses: actions/checkout@v2
+        
+      - name: Prueba de Test
+        working-directory: ./app
+        run: |
+          docker compose -f "docker-compose-test.yaml" build
+          docker compose -f "docker-compose-test.yaml" up -d
+          
+      - name: Construir Containers
+        if: ${{ success() }}
+        working-directory: ./app
+        #run: docker compose -f "docker-compose.yaml" up -d --build
+        run: docker compose -f "docker-compose.yaml" build 
+        
+      - name: Configurar DockerHub
+        if: ${{ success() }}
+        env:
+          DOCKER_USER: ${{secrets.DOCKER_USER}}
+          DOCKER_PASS: ${{secrets.DOCKER_PASS}}
+        run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+        
+      - name: Subir Compose
+        if: ${{ success() }}
+        working-directory: ./app
+        run: |
+          docker compose push
+  deploy:
+    needs: [build, approval]
+    runs-on: [self-hosted, deploy]
+    steps:
+      - name: Descarga del Repositorio
+        uses: actions/checkout@v2
+
+      - name: Iniciar DockerCompose
+        working-directory: ./app
+        run: docker compose -f "docker-compose.yaml" up -d

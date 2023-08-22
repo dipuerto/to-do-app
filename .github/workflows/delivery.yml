@@ -5,22 +5,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  approval:
-    runs-on: [self-hosted, build]
-
-    steps:
-      - name: Pedir Aprovación
-        id: approval
-        run: echo "Por favor revise este despliegue"
-
-      - name: Esperar Aprovación
-        uses: repo-sync/pause-action@v2
-        id: pause
-        with:
-          seconds: 0 # Set to 0 to wait indefinitely
-  
   build:
-    needs: approval
     runs-on: [self-hosted, build]
     steps:
       - name: Descarga del Repositorio
@@ -51,9 +36,13 @@ jobs:
         run: |
           docker compose push
   deploy:
-    needs: [build, approval]
+    needs: build
     runs-on: [self-hosted, deploy]
     steps:
+      - uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: dipuerto
       - name: Descarga del Repositorio
         uses: actions/checkout@v2
 

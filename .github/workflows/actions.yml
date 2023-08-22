@@ -14,7 +14,7 @@ jobs:
       - name: Prueba de Test
         working-directory: ./app
         run: |
-          docker build -t test -f Dockerfile ./test_docker
+          docker build -t test -f Dockerfile .
           docker run test
         
       - name: Construir Containers
